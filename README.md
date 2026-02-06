@@ -225,26 +225,75 @@ If you're migrating from an existing user management system:
 
 ## 🧪 Testing
 
+The package includes comprehensive test coverage for all modules.
+
+### Running Tests
+
 ```bash
 # Run all tests
 pytest
 
 # Run specific module tests
-pytest tests/authentication/
-pytest tests/authorization/
-pytest tests/activity/
+pytest tests/test_authentication.py
+pytest tests/test_authorization.py
+pytest tests/test_activity.py
 
 # With coverage
-pytest --cov=user_management
+pytest --cov=user_management --cov-report=html
+
+# Run with verbose output
+pytest -v
+
+# Run specific test class
+pytest tests/test_authorization.py::TestRBACUserProfile
+```
+
+### Test Coverage
+
+- **Authentication Tests**: User model, profile, password reset, JWT authentication
+- **Authorization Tests**: Organizations, modules, permissions, roles, RBAC profile, permission checking
+- **Activity Tests**: System activities, activity streams, statistics, user sessions, activity tracker
+
+### Fixtures Available
+
+The test suite includes several fixtures for easy testing:
+
+- `test_user`: Standard test user
+- `admin_user`: Admin user with RBAC profile
+- `test_organization`: Test organization
+- `test_module`: Test module
+- `test_role`: Test role
+- `api_client`: DRF API client
+- `authenticated_client`: Pre-authenticated API client
+
+### Example Test
+
+```python
+import pytest
+from user_management.authorization.models import Permission
+
+@pytest.mark.django_db
+def test_user_has_permission(admin_user, test_module):
+    """Test permission checking"""
+    permission = Permission.objects.create(
+        module=test_module,
+        name='View Data',
+        code='data.view',
+        action='read'
+    )
+    
+    profile = admin_user.rbac_profile
+    assert profile.has_permission('data.view')
 ```
 
 ## 📚 Documentation
 
-- [Architecture Guide](docs/ARCHITECTURE.md)
-- [API Reference](docs/API_REFERENCE.md)
-- [Configuration Guide](docs/CONFIGURATION.md)
-- [Migration Guide](docs/MIGRATION.md)
-- [Security Best Practices](docs/SECURITY.md)
+- [Architecture Guide](docs/ARCHITECTURE.md) - Detailed system architecture and design patterns
+- [Usage Examples](docs/USAGE.md) - Code examples for all features
+- [Migration Guide](docs/MIGRATION.md) - Step-by-step migration from existing system
+- ~~[API Reference](docs/API_REFERENCE.md)~~ - Coming soon
+- ~~[Configuration Guide](docs/CONFIGURATION.md)~~ - Coming soon
+- ~~[Security Best Practices](docs/SECURITY.md)~~ - Coming soon
 
 ## 🤝 Contributing
 
