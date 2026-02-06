@@ -1,0 +1,27 @@
+# Core Django Dependencies
+Django>=4.2.0,<5.0.0
+django-cors-headers>=4.0.0
+djangorestframework>=3.14.0
+djangorestframework-simplejwt>=5.2.0
+
+# Database
+psycopg2-binary>=2.9.5
+
+# Utilities
+python-decouple>=3.8
+Pillow>=10.0.0
+
+# Email & Communication
+django-anymail[mailgun]>=10.0
+
+# Validation
+email-validator>=2.0.0
+
+# Development Dependencies (optional)
+# Uncomment for development
+# pytest>=7.4.0
+# pytest-django>=4.5.0
+# pytest-cov>=4.1.0
+# black>=23.0.0
+# flake8>=6.0.0
+# mypy>=1.0.0
